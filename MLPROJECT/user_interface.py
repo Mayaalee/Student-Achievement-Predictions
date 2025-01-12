@@ -23,11 +23,27 @@ user_input = {}
 st.write("### Personal Status Options:")
 
 if "Gender" in columns:
-    st.write("### Gender Options:")
     user_input["Gender"] = st.radio("Select your gender:", options=[0, 1], format_func=lambda x: "Female" if x == 0 else "Male")
 
 if "Age at enrollment" in columns:
     user_input["Age at enrollment"] = st.number_input("Enter your age at enrollment:", value=0, step=1)
+
+if "Marital status" in columns:
+
+    st.write("1: Single\n2: Married\n3: Widower\n4: Divorced\n5: Common-law marriage\n6: Legally separated")
+
+    marital_status_options = [
+        "1: Single",
+        "2: Married",
+        "3: Widower",
+        "4: Divorced",
+        "5: Common-law marriage",
+        "6: Legally separated"
+    ]
+
+    selected_status = st.selectbox("Select your marital status:", marital_status_options)
+    marital_status_number = int(selected_status.split(":")[0])
+    user_input["Marital status"] = marital_status_number
 
 if "Displaced" in columns:
     user_input["Displaced"] = st.radio("Are you displaced? (0 for No, 1 for Yes):", options=[0, 1])
@@ -42,7 +58,6 @@ if "International" in columns:
     user_input["International"] = st.radio("Are you an international student?:", options=[0, 1], format_func=lambda x: "No" if x == 0 else "Yes")
 
 if "Nacionality" in columns:
-    st.write("### Nationality Options:")
     nationality_options = [
         "1: Portuguese",
         "2: German",
@@ -71,25 +86,8 @@ if "Nacionality" in columns:
     nationality_number = int(selected_option.split(":")[0]) 
     user_input["Nacionality"] = nationality_number 
 
-if "Marital status" in columns:
-
-    st.write("1: Single\n2: Married\n3: Widower\n4: Divorced\n5: Common-law marriage\n6: Legally separated")
-
-    marital_status_options = [
-        "1: Single",
-        "2: Married",
-        "3: Widower",
-        "4: Divorced",
-        "5: Common-law marriage",
-        "6: Legally separated"
-    ]
-
-    selected_status = st.selectbox("Select your marital status:", marital_status_options)
-    marital_status_number = int(selected_status.split(":")[0])
-    user_input["Marital status"] = marital_status_number
-
 if "Mother's qualification" in columns or "Father's qualification" in columns:
-    st.write("### Parent's Qualification Options:")
+    st.write("#### Parent's Qualification Options:")
     qualification_options = [
         "1: Secondary Education—12th Year of Schooling or Equivalent",
         "2: Higher Education—bachelor’s degree",
@@ -170,7 +168,7 @@ if "Application order" in columns:
     user_input["Application order"] = st.number_input("Enter the application order (e.g., 1 for first choice):", value=0, step=1)
 
 if "Course" in columns:
-    st.write("### Course Options:")
+    st.write("#### Course Options:")
     course_options = [
         "1: Biofuel Production Technologies",
         "2: Animation and Multimedia Design",
@@ -221,7 +219,6 @@ if "Previous qualification" in columns:
 
 
 if "Daytime/evening attendance" in columns:
-    st.write("### Attendance Options:")
     user_input["Daytime/evening attendance"] = st.radio("Select your attendance regime (Evening/ Daytime):", options=[0, 1], format_func=lambda x: "Evening" if x == 0 else "Daytime")
 
 if "Curricular units 1st sem (credited)" in columns:
@@ -264,7 +261,7 @@ if "Curricular units 2nd sem (without evaluations)" in columns:
 st.write("### Financial Background:")
 
 if "Mother's occupation" in columns or "Father's occupation" in columns:
-    st.write("### Parent's Occupation Options:")
+    st.write("#### Parent's Occupation Options:")
     occupation_options = [
         "1: Student",
         "2: Representatives of the Legislative Power and Executive Bodies, Directors, Directors and Executive Managers",
