@@ -8,7 +8,7 @@ st.title("Student Achievement Prediction")
 st.write("This app allows you to predict the target (Enrolled, Dropout, Graduate) based on your inputs.")
 
 # Load the pre-trained model
-clf = joblib.load('model.pkl')
+clf = joblib.load('MLPROJECT/model.pkl')
 
 # Extract feature names from the model 
 if hasattr(clf, 'feature_names_in_'):
@@ -20,110 +20,26 @@ else:
 # User input for each column
 user_input = {}
 
-if "Marital status" in columns:
-    st.write("### Personal Status Options:")
-    st.write("1: Single\n2: Married\n3: Widower\n4: Divorced\n5: Common-law marriage\n6: Legally separated")
+st.write("### Personal Status Options:")
 
-    marital_status_options = [
-        "1: Single",
-        "2: Married",
-        "3: Widower",
-        "4: Divorced",
-        "5: Common-law marriage",
-        "6: Legally separated"
-    ]
+if "Gender" in columns:
+    st.write("### Gender Options:")
+    user_input["Gender"] = st.radio("Select your gender:", options=[0, 1], format_func=lambda x: "Female" if x == 0 else "Male")
 
-    selected_status = st.selectbox("Select your marital status:", marital_status_options)
-    marital_status_number = int(selected_status.split(":")[0])
-    user_input["Marital status"] = marital_status_number
+if "Age at enrollment" in columns:
+    user_input["Age at enrollment"] = st.number_input("Enter your age at enrollment:", value=0, step=1)
 
-import streamlit as st
+if "Displaced" in columns:
+    user_input["Displaced"] = st.radio("Are you displaced? (0 for No, 1 for Yes):", options=[0, 1])
 
-if "Application mode" in columns:
-    application_mode_options = [
-        "1: 1st phase—general contingent",
-        "2: Ordinance No. 612/93",
-        "3: 1st phase—special contingent (Azores Island)",
-        "4: Holders of other higher courses",
-        "5: Ordinance No. 854-B/99",
-        "6: International student (bachelor)",
-        "7: 1st phase—special contingent (Madeira Island)",
-        "8: 2nd phase—general contingent",
-        "9: 3rd phase—general contingent",
-        "10: Ordinance No. 533-A/99, item b2) (Different Plan)",
-        "11: Ordinance No. 533-A/99, item b3 (Other Institution)",
-        "12: Over 23 years old",
-        "13: Transfer",
-        "14: Change in course",
-        "15: Technological specialization diploma holders",
-        "16: Change in institution/course",
-        "17: Short cycle diploma holders",
-        "18: Change in institution/course (International)"
-    ]
+if "Educational special needs" in columns:
+    user_input["Educational special needs"] = st.radio("Do you have educational special needs? (0 for No, 1 for Yes):", options=[0, 1])
 
-    selected_mode = st.selectbox("Select your application mode:", application_mode_options)
-    application_mode_number = int(selected_mode.split(":")[0])
-    user_input["Application mode"] = application_mode_number
+if "Debtor" in columns:
+    user_input["Debtor"] = st.radio("Are you a debtor? (0 for No, 1 for Yes):", options=[0, 1])
 
-if "Application order" in columns:
-    user_input["Application order"] = st.number_input("Enter the application order (e.g., 1 for first choice):", value=0, step=1)
-
-import streamlit as st
-
-if "Course" in columns:
-    st.write("### Course Options:")
-    course_options = [
-        "1: Biofuel Production Technologies",
-        "2: Animation and Multimedia Design",
-        "3: Social Service (evening attendance)",
-        "4: Agronomy",
-        "5: Communication Design",
-        "6: Veterinary Nursing",
-        "7: Informatics Engineering",
-        "8: Equiniculture",
-        "9: Management",
-        "10: Social Service",
-        "11: Tourism",
-        "12: Nursing",
-        "13: Oral Hygiene",
-        "14: Advertising and Marketing Management",
-        "15: Journalism and Communication",
-        "16: Basic Education",
-        "17: Management (evening attendance)"
-    ]
-
-    selected_course = st.selectbox("Select your course:", course_options)
-    course_number = int(selected_course.split(":")[0])
-    user_input["Course"] = course_number
-
-if "Daytime/evening attendance" in columns:
-    st.write("### Attendance Options:")
-    user_input["Daytime/evening attendance"] = st.radio("Select your attendance regime (Evening/ Daytime):", options=[0, 1], format_func=lambda x: "Evening" if x == 0 else "Daytime")
-
-if "Previous qualification" in columns:
-    qualification_options = [
-        "1: Secondary education",
-        "2: Higher education—bachelor’s degree",
-        "3: Higher education—degree",
-        "4: Higher education—master’s degree",
-        "5: Higher education—doctorate",
-        "6: Frequency of higher education",
-        "7: 12th year of schooling—not completed",
-        "8: 11th year of schooling—not completed",
-        "9: Other—11th year of schooling",
-        "10: 10th year of schooling",
-        "11: 10th year of schooling—not completed",
-        "12: Basic education 3rd cycle (9th/10th/11th year) or equivalent",
-        "13: Basic education 2nd cycle (6th/7th/8th year) or equivalent",
-        "14: Technological specialization course",
-        "15: Higher education—degree (1st cycle)",
-        "16: Professional higher technical course",
-        "17: Higher education—master’s degree (2nd cycle)"
-    ]
-
-    selected_qualification = st.selectbox("Select your previous qualification:", qualification_options)
-    qualification_number = int(selected_qualification.split(":")[0])
-    user_input["Previous qualification"] = qualification_number
+if "International" in columns:
+    user_input["International"] = st.radio("Are you an international student?:", options=[0, 1], format_func=lambda x: "No" if x == 0 else "Yes")
 
 if "Nacionality" in columns:
     st.write("### Nationality Options:")
@@ -150,13 +66,27 @@ if "Nacionality" in columns:
         "20: Cuban",
         "21: Colombian"
     ]
-
     selected_option = st.selectbox("Select your nationality:", nationality_options)
-
     # Extract the nationality number from the selected option string
     nationality_number = int(selected_option.split(":")[0]) 
-
     user_input["Nacionality"] = nationality_number 
+
+if "Marital status" in columns:
+
+    st.write("1: Single\n2: Married\n3: Widower\n4: Divorced\n5: Common-law marriage\n6: Legally separated")
+
+    marital_status_options = [
+        "1: Single",
+        "2: Married",
+        "3: Widower",
+        "4: Divorced",
+        "5: Common-law marriage",
+        "6: Legally separated"
+    ]
+
+    selected_status = st.selectbox("Select your marital status:", marital_status_options)
+    marital_status_number = int(selected_status.split(":")[0])
+    user_input["Marital status"] = marital_status_number
 
 if "Mother's qualification" in columns or "Father's qualification" in columns:
     st.write("### Parent's Qualification Options:")
@@ -206,6 +136,132 @@ if "Mother's qualification" in columns or "Father's qualification" in columns:
         father_qualification = st.selectbox("Select your father's qualification:", qualification_options)
         father_qualification_number = int(father_qualification.split(":")[0])
         user_input["Father's qualification"] = father_qualification_number
+
+
+st.write("### Academic Performance:")
+
+if "Application mode" in columns:
+    application_mode_options = [
+        "1: 1st phase—general contingent",
+        "2: Ordinance No. 612/93",
+        "3: 1st phase—special contingent (Azores Island)",
+        "4: Holders of other higher courses",
+        "5: Ordinance No. 854-B/99",
+        "6: International student (bachelor)",
+        "7: 1st phase—special contingent (Madeira Island)",
+        "8: 2nd phase—general contingent",
+        "9: 3rd phase—general contingent",
+        "10: Ordinance No. 533-A/99, item b2) (Different Plan)",
+        "11: Ordinance No. 533-A/99, item b3 (Other Institution)",
+        "12: Over 23 years old",
+        "13: Transfer",
+        "14: Change in course",
+        "15: Technological specialization diploma holders",
+        "16: Change in institution/course",
+        "17: Short cycle diploma holders",
+        "18: Change in institution/course (International)"
+    ]
+
+    selected_mode = st.selectbox("Select your application mode:", application_mode_options)
+    application_mode_number = int(selected_mode.split(":")[0])
+    user_input["Application mode"] = application_mode_number
+
+if "Application order" in columns:
+    user_input["Application order"] = st.number_input("Enter the application order (e.g., 1 for first choice):", value=0, step=1)
+
+if "Course" in columns:
+    st.write("### Course Options:")
+    course_options = [
+        "1: Biofuel Production Technologies",
+        "2: Animation and Multimedia Design",
+        "3: Social Service (evening attendance)",
+        "4: Agronomy",
+        "5: Communication Design",
+        "6: Veterinary Nursing",
+        "7: Informatics Engineering",
+        "8: Equiniculture",
+        "9: Management",
+        "10: Social Service",
+        "11: Tourism",
+        "12: Nursing",
+        "13: Oral Hygiene",
+        "14: Advertising and Marketing Management",
+        "15: Journalism and Communication",
+        "16: Basic Education",
+        "17: Management (evening attendance)"
+    ]
+    selected_course = st.selectbox("Select your course:", course_options)
+    course_number = int(selected_course.split(":")[0])
+    user_input["Course"] = course_number
+
+if "Previous qualification" in columns:
+    qualification_options = [
+        "1: Secondary education",
+        "2: Higher education—bachelor’s degree",
+        "3: Higher education—degree",
+        "4: Higher education—master’s degree",
+        "5: Higher education—doctorate",
+        "6: Frequency of higher education",
+        "7: 12th year of schooling—not completed",
+        "8: 11th year of schooling—not completed",
+        "9: Other—11th year of schooling",
+        "10: 10th year of schooling",
+        "11: 10th year of schooling—not completed",
+        "12: Basic education 3rd cycle (9th/10th/11th year) or equivalent",
+        "13: Basic education 2nd cycle (6th/7th/8th year) or equivalent",
+        "14: Technological specialization course",
+        "15: Higher education—degree (1st cycle)",
+        "16: Professional higher technical course",
+        "17: Higher education—master’s degree (2nd cycle)"
+    ]
+
+    selected_qualification = st.selectbox("Select your previous qualification:", qualification_options)
+    qualification_number = int(selected_qualification.split(":")[0])
+    user_input["Previous qualification"] = qualification_number
+
+
+if "Daytime/evening attendance" in columns:
+    st.write("### Attendance Options:")
+    user_input["Daytime/evening attendance"] = st.radio("Select your attendance regime (Evening/ Daytime):", options=[0, 1], format_func=lambda x: "Evening" if x == 0 else "Daytime")
+
+if "Curricular units 1st sem (credited)" in columns:
+    user_input["Curricular units 1st sem (credited)"] = st.number_input("Enter the number of credited curricular units in the 1st semester:", value=0, step=1)
+
+if "Curricular units 1st sem (enrolled)" in columns:
+    user_input["Curricular units 1st sem (enrolled)"] = st.number_input("Enter the number of enrolled curricular units in the 1st semester:", value=0, step=1)
+
+if "Curricular units 1st sem (evaluations)" in columns:
+    user_input["Curricular units 1st sem (evaluations)"] = st.number_input("Enter the number of evaluations in the 1st semester:", value=0, step=1)
+
+if "Curricular units 1st sem (approved)" in columns:
+    user_input["Curricular units 1st sem (approved)"] = st.number_input("Enter the number of approved curricular units in the 1st semester:", value=0, step=1)
+
+if "Curricular units 1st sem (grade)" in columns:
+    user_input["Curricular units 1st sem (grade)"] = st.number_input("Enter the grade of curricular units in the 1st semester:", value=0.0, step=0.5)
+
+if "Curricular units 1st sem (without evaluations)" in columns:
+    user_input["Curricular units 1st sem (without evaluations)"] = st.number_input("Enter the number of curricular units without evaluations in the 1st semester:", value=0, step=1)
+
+if "Curricular units 2nd sem (credited)" in columns:
+    user_input["Curricular units 2nd sem (credited)"] = st.number_input("Enter the number of credited curricular units in the 2nd semester:", value=0, step=1)
+
+if "Curricular units 2nd sem (enrolled)" in columns:
+    user_input["Curricular units 2nd sem (enrolled)"] = st.number_input("Enter the number of enrolled curricular units in the 2nd semester:", value=0, step=1)
+
+if "Curricular units 2nd sem (evaluations)" in columns:
+    user_input["Curricular units 2nd sem (evaluations)"] = st.number_input("Enter the number of evaluations in the 2nd semester:", value=0, step=1)
+
+if "Curricular units 2nd sem (approved)" in columns:
+    user_input["Curricular units 2nd sem (approved)"] = st.number_input("Enter the number of approved curricular units in the 2nd semester:", value=0, step=1)
+
+if "Curricular units 2nd sem (grade)" in columns:
+    user_input["Curricular units 2nd sem (grade)"] = st.number_input("Enter the grade of curricular units in the 2nd semester:", value=0.0, step=0.5)
+
+if "Curricular units 2nd sem (without evaluations)" in columns:
+    user_input["Curricular units 2nd sem (without evaluations)"] = st.number_input("Enter the number of curricular units without evaluations in the 2nd semester:", value=0, step=1)
+
+
+st.write("### Financial Background:")
 
 if "Mother's occupation" in columns or "Father's occupation" in columns:
     st.write("### Parent's Occupation Options:")
@@ -267,72 +323,17 @@ if "Mother's occupation" in columns or "Father's occupation" in columns:
         father_occupation_number = int(father_occupation.split(":")[0])
         user_input["Father's occupation"] = father_occupation_number
 
-if "Displaced" in columns:
-    user_input["Displaced"] = st.radio("Are you displaced? (0 for No, 1 for Yes):", options=[0, 1])
-
-if "Educational special needs" in columns:
-    user_input["Educational special needs"] = st.radio("Do you have educational special needs? (0 for No, 1 for Yes):", options=[0, 1])
-
-if "Debtor" in columns:
-    user_input["Debtor"] = st.radio("Are you a debtor? (0 for No, 1 for Yes):", options=[0, 1])
-
 if "Tuition fees up to date" in columns:
     user_input["Tuition fees up to date"] = st.radio("Are your tuition fees up to date? (0 for No, 1 for Yes):", options=[0, 1])
-
-if "Gender" in columns:
-    st.write("### Gender Options:")
-    user_input["Gender"] = st.radio("Select your gender:", options=[0, 1], format_func=lambda x: "Female" if x == 0 else "Male")
 
 if "Scholarship holder" in columns:
     user_input["Scholarship holder"] = st.radio("Are you a scholarship holder?:", options=[0, 1], format_func=lambda x: "No" if x == 0 else "Yes")
 
-if "Age at enrollment" in columns:
-    user_input["Age at enrollment"] = st.number_input("Enter your age at enrollment:", value=0, step=1)
-
-if "International" in columns:
-    user_input["International"] = st.radio("Are you an international student?:", options=[0, 1], format_func=lambda x: "No" if x == 0 else "Yes")
-
-if "Curricular units 1st sem (credited)" in columns:
-    user_input["Curricular units 1st sem (credited)"] = st.number_input("Enter the number of credited curricular units in the 1st semester:", value=0, step=1)
-
-if "Curricular units 1st sem (enrolled)" in columns:
-    user_input["Curricular units 1st sem (enrolled)"] = st.number_input("Enter the number of enrolled curricular units in the 1st semester:", value=0, step=1)
-
-if "Curricular units 1st sem (evaluations)" in columns:
-    user_input["Curricular units 1st sem (evaluations)"] = st.number_input("Enter the number of evaluations in the 1st semester:", value=0, step=1)
-
-if "Curricular units 1st sem (approved)" in columns:
-    user_input["Curricular units 1st sem (approved)"] = st.number_input("Enter the number of approved curricular units in the 1st semester:", value=0, step=1)
-
-if "Curricular units 1st sem (grade)" in columns:
-    user_input["Curricular units 1st sem (grade)"] = st.number_input("Enter the grade of curricular units in the 1st semester:", value=0.0, step=0.1)
-
-if "Curricular units 1st sem (without evaluations)" in columns:
-    user_input["Curricular units 1st sem (without evaluations)"] = st.number_input("Enter the number of curricular units without evaluations in the 1st semester:", value=0, step=1)
-
-if "Curricular units 2nd sem (credited)" in columns:
-    user_input["Curricular units 2nd sem (credited)"] = st.number_input("Enter the number of credited curricular units in the 2nd semester:", value=0, step=1)
-
-if "Curricular units 2nd sem (enrolled)" in columns:
-    user_input["Curricular units 2nd sem (enrolled)"] = st.number_input("Enter the number of enrolled curricular units in the 2nd semester:", value=0, step=1)
-
-if "Curricular units 2nd sem (evaluations)" in columns:
-    user_input["Curricular units 2nd sem (evaluations)"] = st.number_input("Enter the number of evaluations in the 2nd semester:", value=0, step=1)
-
-if "Curricular units 2nd sem (approved)" in columns:
-    user_input["Curricular units 2nd sem (approved)"] = st.number_input("Enter the number of approved curricular units in the 2nd semester:", value=0, step=1)
-
-if "Curricular units 2nd sem (grade)" in columns:
-    user_input["Curricular units 2nd sem (grade)"] = st.number_input("Enter the grade of curricular units in the 2nd semester:", value=0.0, step=0.1)
-
-if "Curricular units 2nd sem (without evaluations)" in columns:
-    user_input["Curricular units 2nd sem (without evaluations)"] = st.number_input("Enter the number of curricular units without evaluations in the 2nd semester:", value=0, step=1)
-
 if "Unemployment rate" in columns:
-    user_input["Unemployment rate"] = st.number_input("Enter the unemployment rate:", value=0.0, step=0.1)
+    user_input["Unemployment rate"] = st.number_input("Enter the unemployment rate:", value=0.0, step=0.5)
 
 if "Inflation rate" in columns:
-    user_input["Inflation rate"] = st.number_input("Enter the inflation rate:", value=0.0, step=0.1)
+    user_input["Inflation rate"] = st.number_input("Enter the inflation rate:", value=0.0, step=0.5)
 
 if "GDP" in columns:
     user_input["GDP"] = st.number_input("Enter the GDP:", value=0.0, step=0.1)
