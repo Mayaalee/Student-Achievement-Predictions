@@ -87,7 +87,7 @@ if "Nacionality" in columns:
     user_input["Nacionality"] = nationality_number 
 
 if "Mother's qualification" in columns or "Father's qualification" in columns:
-    st.write("#### Parent's Qualification Options:")
+    st.write("##### Parent's Qualification Options:")
     qualification_options = [
         "1: Secondary Education—12th Year of Schooling or Equivalent",
         "2: Higher Education—bachelor’s degree",
@@ -168,7 +168,7 @@ if "Application order" in columns:
     user_input["Application order"] = st.number_input("Enter the application order (e.g., 1 for first choice):", value=0, step=1)
 
 if "Course" in columns:
-    st.write("#### Course Options:")
+    st.write("##### Course Options:")
     course_options = [
         "1: Biofuel Production Technologies",
         "2: Animation and Multimedia Design",
@@ -261,7 +261,7 @@ if "Curricular units 2nd sem (without evaluations)" in columns:
 st.write("### Financial Background:")
 
 if "Mother's occupation" in columns or "Father's occupation" in columns:
-    st.write("#### Parent's Occupation Options:")
+    st.write("##### Parent's Occupation Options:")
     occupation_options = [
         "1: Student",
         "2: Representatives of the Legislative Power and Executive Bodies, Directors, Directors and Executive Managers",
